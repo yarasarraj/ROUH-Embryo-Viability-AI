@@ -67,7 +67,7 @@ A local React-based interface was designed to demonstrate user roles and the emb
 ![Patient dashboard](PatientDashboard.png)
 
 ### Assessment workflow and explainability
-![Assessment workflow](AssessmentWorkflow.png)
+![Assessment workflow](AssessmentWrorkflow.png)
 ![Assessment results and explainability](AssessmentWorkflow2.png)
 *Screenshots may contain illustrative assessment values rather than independently verified end-to-end predictions.*
 
