@@ -1,40 +1,98 @@
-# ROUH — Embryo Image Classification
+# ROUH — AI-Based Embryo Viability Assessment
 
-Research component of **ROUH**, an AI system that uses late fusion exploring non-invasive embryo viability assessment using image analysis and morphokinetic data.
+**A research prototype exploring non-invasive embryo viability assessment using image classification, morphokinetic analysis, and weighted late fusion.**
 
-## Notebook
+ROUH was developed as a graduation project at Middle East University. It investigates how two separate AI models can support embryo assessment: an image model that examines embryo imagery and a morphokinetic model that uses developmental timing features. Their predicted probabilities are combined at the **decision level (late fusion)**.
 
-[`image_classification_clean.ipynb`](image_classification_clean.ipynb) compares a baseline convolutional neural network, ResNet50, and EfficientNetB0 on binary embryo-image classification. It includes transfer learning, class-weighting, evaluation, fine-tuning, threshold analysis, and Grad-CAM visualization.
+> **Research and demonstration only.** ROUH is not a clinically validated diagnostic tool and should not be used for medical decisions.
 
-## Recorded results
+## Project at a glance
 
-The following are from the saved run of the original notebook, **not independently reproduced here**:
+| Component | Approach |
+| --- | --- |
+| Image analysis | CNN baseline, ResNet50, EfficientNetB0 |
+| Morphokinetic analysis | LSTM, with GRU comparison |
+| Late fusion | Weighted combination of output probabilities |
+| Explainability | Grad-CAM for image analysis; SHAP for feature insights |
+| Interface | Local React/Vite website prototype |
 
-| Model | Test accuracy | Viable-class F1 | AUC |
-|---|---:|---:|---:|
-| Baseline CNN | 85.12% | 0.000 | 0.491 |
-| ResNet50 | 80.95% | 0.500 | 0.774 |
-| EfficientNetB0 | 88.10% | 0.615 | 0.790 |
+## How late fusion works
 
-The held-out test split contained **168 images** (143 labeled non-viable and 25 viable). The baseline CNN failed to identify viable cases despite its high overall accuracy, illustrating the impact of class imbalance.
-
-## Dataset and reproducibility
-
-**Embryo images and trained model weights are not included.** Only use data you are permitted to access and redistribute. The notebook expects the following folder structure, with class subfolders under each split:
+The image and morphokinetic models process their respective inputs separately. The demonstration combines their output probabilities using the following weighting:
 
 ```text
-data/embryo_images_raw/
-  train/
-    0/
-    1/
-  test/
-    0/
-    1/
+Final viability probability =
+    0.60 × image-model probability
+  + 0.40 × morphokinetic-model probability
 ```
 
-Set `ROUH_DATASET_DIR` to the dataset root, `ROUH_OUTPUT_DIR` to the desired output directory, and optionally `ROUH_SAMPLE_IMAGE` to an authorized sample image for Grad-CAM. In Colab, mount Drive and set these environment variables before executing the notebook. Required Python packages include TensorFlow, NumPy, Pandas, Matplotlib, Pillow, scikit-learn, and OpenCV (`opencv-python`). Version compatibility and full reproducibility have **not yet been verified**.
+**Important limitation:** The source datasets did not provide paired image and morphokinetic records for the same embryos. Consequently, the fusion examples illustrate the *method*, rather than providing a clinically validated or independently measured end-to-end fusion accuracy.
 
-## Responsible use
+## Repository contents
 
-This is an **academic research prototype**, not a clinically validated diagnostic system. Predictions should not be used for clinical decisions. Do not publicly commit patient-identifiable data, confidential embryo images, credentials, or restricted model artifacts.
+| File | Description |
+| --- | --- |
+| [`image_classification_clean.ipynb`](image_classification_clean.ipynb) | Image-model experiments, evaluation, and Grad-CAM |
+| [`morphokinetic_lstm_late_fusion.ipynb`](morphokinetic_lstm_late_fusion.ipynb) | Morphokinetic models, evaluation, SHAP, and late-fusion demonstration |
+| [`MORPHOKINETIC_README.md`](MORPHOKINETIC_README.md) | Notes on the morphokinetic notebook and its limitations |
+| [`Yara El Sarraj - Poster 2.pdf`](Yara%20El%20Sarraj%20-%20Poster%202.pdf) | Graduation project poster |
+| `*.png` | Screenshots of the local web application prototype |
 
+## Recorded model experiments
+
+The notebooks include comparisons of classical and transfer-learning-based image approaches, as well as LSTM and GRU for morphokinetic data.
+
+Some results recorded during development include:
+
+| Experiment | Recorded test accuracy |
+| --- | ---: |
+| Image — EfficientNetB0 | 88.10% |
+| Morphokinetic — LSTM | 85.11% |
+
+These are **individual model experiment results**, **not** accuracy of the combined late-fusion system. Results depend on the notebook versions, data splits, and preprocessing used. The morphokinetic notebook fits a scaler before the train/test split; this introduces potential data leakage, so its reported metrics should be treated as preliminary until the experiment is rerun with training-only preprocessing.
+
+## Web application prototype
+
+A local React-based interface was designed to demonstrate user roles and the embryo assessment workflow. **It is not currently presented here as a deployed or fully integrated production application.** The images below are interface screenshots, not evidence of clinical validation.
+
+### Landing page
+![ROUH landing page](LandingPage.png)
+
+### Role selection and authentication
+![Role selection](RoleSection.png)
+![Login interface](Authentication.png)
+
+### Doctor and patient dashboards
+![Doctor dashboard](DoctorDashboard.png)
+![Patient dashboard](PatientDashboard.png)
+
+### Assessment workflow and explainability
+![Assessment workflow](AssessmentWorkflow.png)
+![Assessment results and explainability](AssessmentWorkflow2.png)
+
+*Screenshots may contain illustrative assessment values rather than independently verified end-to-end predictions.*
+
+## Project poster
+
+[**View the ROUH graduation poster (PDF)**](Yara%20El%20Sarraj%20-%20Poster%202.pdf)
+
+The poster's **87% final prediction** is presented as an example assessment output, **not** as a validated overall model accuracy figure.
+
+## Technologies
+
+Python · TensorFlow/Keras · scikit-learn · Computer Vision · LSTM · Grad-CAM · SHAP · React · Vite
+
+## Limitations and future work
+
+- Limited data and class imbalance may affect generalization.
+- Image and morphokinetic datasets are **not paired embryo-by-embryo**, preventing a reliable evaluation of combined late-fusion performance.
+- The morphokinetic preprocessing pipeline requires retraining after the scaler is fitted exclusively on training data.
+- Broader external evaluation and clinical validation would be required before considering any real-world use.
+- The website is a **local prototype**; its source code and a working hosted demo are not included in this repository.
+
+## Author
+
+**Yara El Sarraj** — Artificial Intelligence Graduate, Middle East University
+
+---
+*ROUH is an academic research prototype intended to demonstrate machine learning engineering, evaluation, explainability, and interface design.*
