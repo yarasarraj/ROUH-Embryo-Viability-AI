@@ -1,6 +1,6 @@
 # ROUH — Embryo Image Classification
 
-Research component of **ROUH**, a multimodal project exploring non-invasive embryo viability assessment using image analysis and morphokinetic data.
+Research component of **ROUH**, an AI system that uses late fusion exploring non-invasive embryo viability assessment using image analysis and morphokinetic data.
 
 ## Notebook
 
@@ -38,6 +38,3 @@ Set `ROUH_DATASET_DIR` to the dataset root, `ROUH_OUTPUT_DIR` to the desired out
 
 This is an **academic research prototype**, not a clinically validated diagnostic system. Predictions should not be used for clinical decisions. Do not publicly commit patient-identifiable data, confidential embryo images, credentials, or restricted model artifacts.
 
-## Project status
-
-This repository currently contains only the image-classification component. Morphokinetic modeling, fusion, explainability beyond image Grad-CAM, and the web application will be added after review.
