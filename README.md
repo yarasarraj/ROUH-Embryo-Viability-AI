@@ -67,8 +67,9 @@ A local React-based interface was designed to demonstrate user roles and the emb
 ![Patient dashboard](PatientDashboard.png)
 
 ### Assessment workflow and explainability
-![Assessment workflow](AssessmentWrorkflow.png)
-![Assessment results and explainability](AssessmentWorkflow2.png)
+![Assessment workflow](https://raw.githubusercontent.com/yarasarraj/ROUH-Embryo-Viability-AI/main/AssesmentWrorkflow.png)
+
+![Assessment results and explainability](https://raw.githubusercontent.com/yarasarraj/ROUH-Embryo-Viability-AI/main/AssesmentWorkflow2.png)
 *Screenshots may contain illustrative assessment values rather than independently verified end-to-end predictions.*
 
 ## Project poster
